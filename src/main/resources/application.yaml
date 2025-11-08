@@ -3,4 +3,10 @@ spring:
     gateway:
       routes:
         - id: posts-route
-          uri: ${POSTS_ROUTE_URI:http://localhost:8080}
+          uri: ${POSTS_ROUTE_URI:http://localhost:8081}
+          predicates:
+            - Path=/posts,/posts/**
+          filters:
+            - RewritePath=/posts(?<segment>.*), /api/posts$\{segment}
+            - AddResponseHeader=X-Powered-By,Ryan Gateway Service
+
